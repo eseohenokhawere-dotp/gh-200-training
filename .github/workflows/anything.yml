@@ -3,11 +3,18 @@ jobs:
   one:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "A" > note.txt
+      - run: mkdir -p /home
+      - run: echo "A" > /home/note.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          path: /home
       - run: cat note.txt
 
   two:
     needs: one
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: my-artifact.json
       - run: cat note.txt
